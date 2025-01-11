@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import io
 import contextlib
 import traceback
@@ -11,6 +12,7 @@ load_dotenv()
 EXECUTION_TIMEOUT = int(os.getenv("EXECUTION_TIMEOUT", 30))
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 
 def execute_code_in_process(code, result_queue):

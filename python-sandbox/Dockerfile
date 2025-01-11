@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install base requirements
-RUN pip3 install --no-cache-dir python-dotenv flask[development]
+RUN pip3 install --no-cache-dir python-dotenv flask[development] flask-cors
 
 COPY .env .
 RUN pip3 install --no-cache-dir $(grep PREINSTALL_LIBS .env | cut -d '"' -f2)
