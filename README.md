@@ -6,6 +6,7 @@ A secure sandbox environment for executing isolated code from frontend applicati
 
 - [Python Sandbox](python-sandbox/README.md)
 - [Java Sandbox](java-sandbox/README.md)
+- [Kotlin Sandbox](kotlin-sandbox/README.md)
 
 ## Quick Start
 
@@ -26,6 +27,11 @@ docker run -p 8080:8080 -v $(pwd):/app python-sandbox
 cd java-sandbox
 docker build -t java-sandbox .
 docker run -p 8081:8080 -v $(pwd)/src:/app/src java-sandbox
+
+# Kotlin
+cd kotlin-sandbox
+docker build -t kotlin-sandbox .
+docker run -p 8082:8080 -v $(pwd)/src:/app/src kotlin-sandbox
 ```
 
 ## API Endpoints

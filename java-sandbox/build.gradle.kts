@@ -19,11 +19,9 @@ dependencies {
    implementation("org.springframework.boot:spring-boot-starter-web")
    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-   // Add Apache Commons Math
+   // Add your dependencies here
    implementation("org.apache.commons:commons-math3:3.6.1")
    implementation("org.apache.commons:commons-lang3:3.14.0")
-
-   // Add your dependencies here
 }
 
 tasks.bootJar {
