@@ -22,6 +22,12 @@ dependencies {
    // Add your dependencies here
    implementation("org.apache.commons:commons-math3:3.6.1")
    implementation("org.apache.commons:commons-lang3:3.14.0")
+
+   // KodyPay
+   implementation("com.kodypay.grpc:kody-clientsdk-java:0.0.9")
+   implementation("io.grpc:grpc-netty-shaded:1.58.0")
+   implementation("io.grpc:grpc-protobuf:1.58.0")
+   implementation("io.grpc:grpc-stub:1.58.0")
 }
 
 tasks.bootJar {
