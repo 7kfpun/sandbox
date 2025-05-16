@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dotnet-sandbox:
+    build: .
+    ports:
+      - "8084:8080"
+    volumes:
+      - ./src:/app/src:ro
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - EXECUTION_TIMEOUT=30
