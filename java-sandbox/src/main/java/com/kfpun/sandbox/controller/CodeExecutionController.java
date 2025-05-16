@@ -158,8 +158,15 @@ public class CodeExecutionController {
     }
 
     private String executeCompiledCode(File buildDir, String packageName, String className, String classpath)
-            throws Exception {
+        throws Exception {
         String fullClassName = packageName.isEmpty() ? className : packageName + "." + className;
+
+        // Print execution information
+        System.out.println("EXECUTION ALERT: Running compiled code for class: " + fullClassName);
+        System.out.println("EXECUTION ALERT: Timestamp: " + new java.util.Date());
+
+        // Start timing the execution
+        long startTime = System.currentTimeMillis();
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(() -> {
@@ -168,6 +175,12 @@ public class CodeExecutionController {
                     "-cp",
                     buildDir.getAbsolutePath() + File.pathSeparator + classpath,
                     fullClassName);
+
+            // Print the exact command being executed
+            System.out.println("EXECUTION ALERT: Command: " + String.join(" ", pb.command()));
+
+            // Time the actual process execution
+            long processStartTime = System.currentTimeMillis();
             Process process = pb.start();
 
             StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream());
@@ -176,13 +189,25 @@ public class CodeExecutionController {
             errorGobbler.start();
 
             process.waitFor();
+            long processEndTime = System.currentTimeMillis();
 
-            return outputGobbler.getOutput() + errorGobbler.getOutput();
+            String output = outputGobbler.getOutput() + errorGobbler.getOutput();
+            System.out.println("EXECUTION ALERT: Process execution time: " + (processEndTime - processStartTime) + "ms");
+            System.out.println("EXECUTION ALERT: Execution completed with output length: " + output.length());
+
+            return output;
         });
 
         try {
-            return future.get(executionTimeout, TimeUnit.SECONDS);
+            String result = future.get(executionTimeout, TimeUnit.SECONDS);
+            // Calculate and print total execution time
+            long endTime = System.currentTimeMillis();
+            System.out.println("EXECUTION ALERT: Total execution time: " + (endTime - startTime) + "ms");
+            return result;
         } catch (TimeoutException e) {
+            long timeoutTime = System.currentTimeMillis();
+            System.out.println("EXECUTION ALERT: Execution timed out after " + executionTimeout + " seconds");
+            System.out.println("EXECUTION ALERT: Time until timeout: " + (timeoutTime - startTime) + "ms");
             throw new Exception("Execution timed out after " + executionTimeout + " seconds");
         } finally {
             executor.shutdownNow();
